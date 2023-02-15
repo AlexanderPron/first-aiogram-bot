@@ -36,22 +36,20 @@ class DBot(object):
         )
         self.session.add(new_user)
         self.session.commit()
-        print("ok5")
         self.session.refresh(new_user)
-        print("ok2")
         return new_user
 
-    def get_user(self, tg_username=None, tg_chat_id=None) -> Users:
+    def get_user(self, tg_username=None, tg_user_id=None) -> Users:
         if tg_username:
             try:
-                user = self.session.query(Users).filter(Users.tg_username == tg_username)
+                user = self.session.query(Users).filter(Users.tg_username == tg_username).first()
             except MultipleResultsFound:
                 return False
             except NoResultFound:
                 return False
-        if tg_chat_id:
+        if tg_user_id:
             try:
-                user = self.session.query(Users).filter(Users.tg_chat_id == tg_chat_id)
+                user = self.session.query(Users).filter(Users.tg_user_id == tg_user_id).first()
             except MultipleResultsFound:
                 return False
             except NoResultFound:

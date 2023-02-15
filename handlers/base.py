@@ -16,9 +16,12 @@ async def command_start_handler(message: Message) -> None:
         tg_chat_id=message.chat.id,
     )
     dbot = DBot(engine_str)
-    await dbot.add_user(new_user)
-    print("ok")
-    await message.answer(f"Hello, <b>{message.from_user.full_name}!</b>")
+    user = dbot.get_user(tg_user_id=message.from_user.id)
+    if not user:
+        dbot.add_user(new_user)
+    await message.answer(f"Hello, <b>{user.name} {user.lastname}</b>!\n\
+Your username: <b>@{user.tg_username}</b>\n\
+Your telegram id: <b>{user.tg_user_id}</b>")
 
 
 async def echo_handler(message: types.Message) -> None:
