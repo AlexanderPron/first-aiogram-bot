@@ -1,10 +1,12 @@
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram import types
-from utils.constants import logger
+from utils.constants import (
+    logger,
+    engine_str,
+)
 from utils.botObjects import UserData
 from utils.DBot import DBot
-from utils.constants import engine_str
 
 
 async def command_start_handler(message: Message) -> None:
@@ -30,3 +32,11 @@ async def echo_handler(message: types.Message) -> None:
     except TypeError:
         logger.debug("Not supported message type for copy")
         await message.answer("Not supported message type")
+
+
+def start_bot():
+    logger.warning('Bot started')
+
+
+def stop_bot():
+    logger.warning('Bot stoped')

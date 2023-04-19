@@ -2,9 +2,11 @@ from utils.constants import *
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
-from handlers.base import (
+from core.handlers.base import (
     command_start_handler,
     echo_handler,
+    start_bot,
+    stop_bot,
 )
 from utils.DBot import DBot
 
@@ -17,6 +19,8 @@ async def main() -> None:
 
     dp.message.register(command_start_handler, Command(commands=["start"]))
     dp.message.register(echo_handler)
+    dp.startup.register(start_bot)
+    dp.shutdown.register(stop_bot)
 
     try:
         await dp.start_polling(bot)

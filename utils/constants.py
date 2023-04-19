@@ -11,7 +11,12 @@ DEV_SETTINGS = os.path.join(BASE_DIR, "dev_settings.ini")
 SETTINGS = os.path.join(BASE_DIR, "settings.ini")
 CURR_SETTINGS = ""
 
-logging.basicConfig(filename=LOG_FILE, format='%(asctime)s -%(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+logging.basicConfig(
+    level=logging.WARNING,
+    filename=LOG_FILE,
+    format='%(asctime)s - %(message)s',
+    datefmt='%d-%b-%y %H:%M:%S'
+)
 logger = logging.getLogger(__name__)
 config = configparser.ConfigParser()
 
