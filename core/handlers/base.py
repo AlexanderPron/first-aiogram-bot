@@ -32,11 +32,3 @@ async def echo_handler(message: types.Message) -> None:
     except TypeError:
         logger.debug("Not supported message type for copy")
         await message.answer("Not supported message type")
-
-
-def start_bot():
-    logger.warning('Bot started')
-
-
-def stop_bot():
-    logger.warning('Bot stoped')

@@ -5,10 +5,18 @@ from aiogram.filters import Command
 from core.handlers.base import (
     command_start_handler,
     echo_handler,
-    start_bot,
-    stop_bot,
 )
+from core.commands import set_commands
 from utils.DBot import DBot
+
+
+async def start_bot(bot: Bot):
+    logger.warning('Bot started')
+    await set_commands(bot)
+
+
+def stop_bot():
+    logger.warning('Bot stoped')
 
 
 async def main() -> None:
@@ -17,7 +25,7 @@ async def main() -> None:
     dbot = DBot(engine_str)
     dbot.create_db()
 
-    dp.message.register(command_start_handler, Command(commands=["start"]))
+    dp.message.register(command_start_handler)
     dp.message.register(echo_handler)
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
