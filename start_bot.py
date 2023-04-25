@@ -25,7 +25,7 @@ async def main() -> None:
     dbot = DBot(engine_str)
     dbot.create_db()
 
-    dp.message.register(command_start_handler)
+    dp.message.register(command_start_handler, Command('start'))
     dp.message.register(echo_handler)
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)

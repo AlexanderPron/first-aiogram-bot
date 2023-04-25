@@ -11,6 +11,13 @@ DEV_SETTINGS = os.path.join(BASE_DIR, "dev_settings.ini")
 SETTINGS = os.path.join(BASE_DIR, "settings.ini")
 CURR_SETTINGS = ""
 
+try:
+    f = open(LOG_FILE)
+except IOError:
+    os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
+    f = open(LOG_FILE, 'w')
+    f.close
+
 logging.basicConfig(
     level=logging.WARNING,
     filename=LOG_FILE,
