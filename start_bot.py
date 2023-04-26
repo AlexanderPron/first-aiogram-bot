@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from core.handlers.base import (
     command_start_handler,
     echo_handler,
+    select_master,
 )
 from core.commands import set_commands
 from utils.DBot import DBot
@@ -28,8 +29,7 @@ async def main() -> None:
 
     dp.startup.register(start_bot)
     dp.message.register(command_start_handler, Command('start'))
-    dp.message.register(echo_handler)
-    # dp.callback_query.register(callback=F.)
+    dp.callback_query.register(select_master, F.data.startswith('choose_master'))
     dp.shutdown.register(stop_bot)
 
     try:

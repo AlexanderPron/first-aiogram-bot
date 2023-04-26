@@ -1,8 +1,10 @@
 from aiogram.types import Message
-from aiogram import types
+from aiogram.types import CallbackQuery
+from aiogram import Bot
 from utils.constants import (
     logger,
     engine_str,
+    masters,
 )
 from utils.botObjects import UserData, MasterData
 from utils.DBot import DBot
@@ -42,20 +44,11 @@ async def echo_handler(message: Message) -> None:
         await message.answer("Not supported message type")
 
 
-async def select_master(message: Message) -> None:
-    masters = []
-    master1 = MasterData(
-        master_id=1,
-        first_name='Иван',
-        last_name='Сусанин'
+async def select_master(call: CallbackQuery, bot: Bot):
+    await call.message.answer(
+        # text='Выберите мастера'.ljust(55, ' '),
+        text='Выберите мастера',
+        reply_markup=choose_master_keyboard(masters),
+        parse_mode='html',
     )
-    masters.append(master1)
-    try:
-        await message.answer(
-            text='Выберите мастера                     ',
-            reply_markup=choose_master_keyboard(masters),
-            parse_mode='html',
-        )
-    except TypeError:
-        logger.debug("Not supported message type for copy")
-        await message.answer("Not supported message type")
+    await call.answer()
