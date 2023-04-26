@@ -11,3 +11,13 @@ class UserData:
     tg_username: str = None
     tg_chat_id: str = None
     added_dt: datetime = None
+
+
+@dataclass
+class MasterData:
+    """Тип данных для мастера"""
+    master_id: int = None
+    first_name: str = None
+    last_name: str = None
+    specialization: str = None
+    phone: str = None

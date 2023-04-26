@@ -8,6 +8,7 @@ from core.handlers.base import (
 )
 from core.commands import set_commands
 from utils.DBot import DBot
+from aiogram import F
 
 
 async def start_bot(bot: Bot):
@@ -25,9 +26,10 @@ async def main() -> None:
     dbot = DBot(engine_str)
     dbot.create_db()
 
+    dp.startup.register(start_bot)
     dp.message.register(command_start_handler, Command('start'))
     dp.message.register(echo_handler)
-    dp.startup.register(start_bot)
+    # dp.callback_query.register(callback=F.)
     dp.shutdown.register(stop_bot)
 
     try:
