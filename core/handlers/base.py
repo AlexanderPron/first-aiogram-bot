@@ -11,6 +11,7 @@ from utils.DBot import DBot
 from core.keyboards.kb import (
     start_keyboard,
     choose_master_keyboard,
+    selected_master_keyboard,
 )
 
 
@@ -44,11 +45,28 @@ async def echo_handler(message: Message) -> None:
         await message.answer("Not supported message type")
 
 
-async def select_master(call: CallbackQuery, bot: Bot):
+async def select_master(call: CallbackQuery):
     await call.message.answer(
         # text='Выберите мастера'.ljust(55, ' '),
         text='Выберите мастера',
         reply_markup=choose_master_keyboard(masters),
+        parse_mode='html',
+    )
+    await call.answer()
+
+
+async def master_room(call: CallbackQuery):
+    master_id = call.data.split('::')[-1]
+    # Ищем мастера с id master_id в списке мастеров masters
+    try:
+        master = next(filter(lambda master: master.master_id == int(master_id), masters))
+    except ValueError:
+        logger.error(f'id={master_id} - не число')
+    except Exception as e:
+        logger.error(f'Какая-то ошибка\n{e}')
+    await call.message.answer(
+        text=f'{master.first_name} {master.last_name}',
+        reply_markup=selected_master_keyboard(master),
         parse_mode='html',
     )
     await call.answer()

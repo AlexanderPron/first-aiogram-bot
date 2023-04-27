@@ -6,6 +6,7 @@ from core.handlers.base import (
     command_start_handler,
     echo_handler,
     select_master,
+    master_room,
 )
 from core.commands import set_commands
 from utils.DBot import DBot
@@ -30,6 +31,7 @@ async def main() -> None:
     dp.startup.register(start_bot)
     dp.message.register(command_start_handler, Command('start'))
     dp.callback_query.register(select_master, F.data.startswith('choose_master'))
+    dp.callback_query.register(master_room, F.data.startswith('set_master'))
     dp.shutdown.register(stop_bot)
 
     try:
