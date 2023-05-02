@@ -5,7 +5,6 @@ from pathlib import Path
 from sqlalchemy.orm import declarative_base
 from utils.botObjects import MasterData
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_FILE = os.path.join(BASE_DIR, "logs/bot.log")
 DEV_SETTINGS = os.path.join(BASE_DIR, "dev_settings.ini")
@@ -23,7 +22,8 @@ logging.basicConfig(
     level=logging.WARNING,
     filename=LOG_FILE,
     format='%(asctime)s - %(message)s',
-    datefmt='%d-%b-%y %H:%M:%S'
+    datefmt='%d-%b-%y %H:%M:%S',
+    encoding='utf-8',
 )
 logger = logging.getLogger(__name__)
 config = configparser.ConfigParser()

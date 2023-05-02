@@ -13,6 +13,7 @@ from core.keyboards.kb import (
     choose_master_keyboard,
     selected_master_keyboard,
 )
+from utils.aiogram3_calendar.simple_calendar import SimpleCalendar
 
 
 async def command_start_handler(message: Message) -> None:
@@ -37,9 +38,16 @@ Your telegram id: <b>{user.tg_user_id}</b>',
     )
 
 
+async def start_handler(call: CallbackQuery):
+    await call.message.edit_text(
+        text='Выберите действие',
+        reply_markup=start_keyboard(),
+        parse_mode='html',
+    )
+
+
 async def select_master(call: CallbackQuery):
-    await call.message.answer(
-        # text='Выберите мастера'.ljust(55, ' '),
+    await call.message.edit_text(
         text='Выберите мастера',
         reply_markup=choose_master_keyboard(masters),
         parse_mode='html',
@@ -56,9 +64,22 @@ async def master_room(call: CallbackQuery):
         logger.error(f'id={master_id} - не число')
     except Exception as e:
         logger.error(f'Какая-то ошибка\n{e}')
-    await call.message.answer(
+    await call.message.edit_text(
         text=f'{master.first_name} {master.last_name}',
         reply_markup=selected_master_keyboard(master),
         parse_mode='html',
     )
     await call.answer()
+
+
+async def master_calendar(call: CallbackQuery):
+    await call.message.answer("Please select a date: ", reply_markup=await SimpleCalendar().start_calendar())
+
+
+async def process_simple_calendar(callback_query: CallbackQuery, callback_data: dict):
+    selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
+    if selected:
+        await callback_query.message.delete()
+        await callback_query.message.answer(
+            f'Вы записались на {date.strftime("%d %B %Y")}',
+        )

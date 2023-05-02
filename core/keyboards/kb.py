@@ -8,15 +8,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
 )
 from utils.botObjects import MasterData
-
-# def make_row_keyboard(items: list[str]) -> ReplyKeyboardMarkup:
-#     """
-#     Создаёт реплай-клавиатуру с кнопками в один ряд
-#     :param items: список текстов для кнопок
-#     :return: объект реплай-клавиатуры
-#     """
-#     row = [KeyboardButton(text=item) for item in items]
-#     return ReplyKeyboardMarkup(keyboard=[row], resize_keyboard=True)
+from utils.aiogram3_calendar.calendar_types import SimpleCalendarCallback
 
 
 def start_keyboard() -> InlineKeyboardMarkup:
@@ -37,6 +29,12 @@ def choose_master_keyboard(masters: list[MasterData]) -> InlineKeyboardMarkup:
                 callback_data=f'set_master::{master.master_id}',
             )
         kb_builder.adjust(3)
+        kb_builder.row(
+            InlineKeyboardButton(
+                text='Назад',
+                callback_data='start_keyboard',
+            ),
+        )
     else:
         pass
     return kb_builder.as_markup()
@@ -57,4 +55,14 @@ def selected_master_keyboard(master: MasterData) -> InlineKeyboardMarkup:
         callback_data=f'make_appointment::{master.master_id}',
     )
     kb_builder.adjust(2)
+    kb_builder.row(
+        InlineKeyboardButton(
+            text='Назад',
+            callback_data='choose_master',
+        ),
+        InlineKeyboardButton(
+            text='В начало',
+            callback_data='start_keyboard',
+        ),
+    )
     return kb_builder.as_markup()
