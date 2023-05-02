@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from core.handlers.base import (
     command_start_handler,
-    echo_handler,
     select_master,
     master_room,
 )

@@ -37,14 +37,6 @@ Your telegram id: <b>{user.tg_user_id}</b>',
     )
 
 
-async def echo_handler(message: Message) -> None:
-    try:
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        logger.debug("Not supported message type for copy")
-        await message.answer("Not supported message type")
-
-
 async def select_master(call: CallbackQuery):
     await call.message.answer(
         # text='Выберите мастера'.ljust(55, ' '),

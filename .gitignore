@@ -131,3 +131,4 @@ dmypy.json
 # my ignore list
 dev_settings.ini
 logs/
+test.py
